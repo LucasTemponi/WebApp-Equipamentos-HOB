@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Equipamentos HOB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+
+    <?!= include('Stylesheet');?>
+  </head>
+
+  <body>
+    <div class = "header">
+    <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png'>
+    <div style='margin:auto'>
+    <h1>Manuais de equipamentos</h1>
+    <input style='margin:5px; size:500' id="enterdata" type="text"/><button class='button' onclick="searchValue()" >Pesquisar</button>    
+    <button class='button' onclick="homePage()">Página principal</button>  
+    </div>
+    </div>
+    <div
+      class="line";
+      id="container"><br><br>
+    </div>
+    <footer>
+      <p><a href="mailto:lucas.temponi@live.com" style='color:white'>Lucas G Temponi Soares - Gerência de Engenharia Clínica/HOB</a></p>
+    </footer>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/tabletop.js/1.4.2/tabletop.min.js'></script>
+    <script src="//cdn.jsdelivr.net/alasql/0.2/alasql.min.js"></script> 
+    <?!= include('JavaScript');?>
+  </body>
+
+</html>
