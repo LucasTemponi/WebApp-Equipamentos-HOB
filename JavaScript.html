@@ -1,0 +1,59 @@
+<script>
+  
+  var flag = 0
+  var homeHTML = ""
+  function searchValue() {
+    var searchvalue = document.getElementById("enterdata").value;
+    document.getElementById("enterdata").value = null;
+    document.getElementById("container").innerHTML = "<p>Buscando...</p>"
+    google.script.run.withSuccessHandler(makeCards).queryData(searchvalue);
+    //google.script.run.queryData(searchvalue).forEach(function(item{
+    //  tbl.innerHTML += 'teste';        
+    //})) 
+  }
+
+ function makeCards(values) {
+    var tbl = document.getElementById("container");
+    tbl.innerHTML = "";
+    values.forEach(function(item) {
+      if (item['Manual']){
+        index = values.indexOf(item)
+        detailsID = index+"Details"     
+        tbl.innerHTML +="<a href="+item['Manual']+" target=_blank id='"+index+"'>\
+                            <div class='card'style='width: 18rem;' >\
+                              <div class='img' style='height:70%'>\
+                               <img src="+item['link']+" alt='Avatar' style='max-width:100%;max-height:100%'>\
+                              </div>\
+                              <div class='container'>\
+                               <h4><b>"+item['Equipamento']+"</b></h4>\
+                               <p>"+item['Categoria']+"</p>\
+                               <p id='"+detailsID+"' hidden >"+item['Descritivo']+"</p>\
+                              </div>\
+                            </div>\
+                          </a>"
+      }
+    });
+    if (flag == 0){
+      homeHTML = tbl.innerHTML
+      flag=1;
+    }
+  }
+
+  function descriptionInject(item){
+    var tbl = document.getElementById("container");
+    tbl.innerHTML = "<p>Buscando...</p>";
+    tbl.innerHTML = "<h1>"+item[0]['Equipamento']+"</h1>";
+  }
+    
+  function details(index){
+    var tbl = document.getElementById(index+"Details");
+    tbl.hidden = !tbl.hidden
+  }
+
+  function homePage(){
+      document.getElementById("container").innerHTML = homeHTML;
+  }
+
+google.script.run.withSuccessHandler(makeCards).passTableItems();
+
+</script>
