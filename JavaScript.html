@@ -1,4 +1,5 @@
 <script>
+  
   var flag = 0
   var homeHTML = ""
   function searchValue() {
@@ -51,8 +52,8 @@
 
   function homePage(){
       document.getElementById("container").innerHTML = homeHTML;
-  }    
+  }
 
-  google.script.run.withSuccessHandler(makeCards).passTableItems();
+google.script.run.withSuccessHandler(makeCards).passTableItems();
 
 </script>
