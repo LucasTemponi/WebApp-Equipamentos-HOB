@@ -2,17 +2,18 @@
   
   var flag = 0
   var homeHTML = ""
-  function searchValue() {
+
+  function searchEquip(table) {
     var searchvalue = document.getElementById("enterdata").value;
     document.getElementById("enterdata").value = null;
     document.getElementById("container").innerHTML = "<p>Buscando...</p>"
-    google.script.run.withSuccessHandler(makeCards).queryData(searchvalue);
+    google.script.run.withSuccessHandler(makeCards).queryData(searchvalue,table);
     //google.script.run.queryData(searchvalue).forEach(function(item{
     //  tbl.innerHTML += 'teste';        
     //})) 
   }
 
- function makeCards(values) {
+  function makeCards(values) {
     var tbl = document.getElementById("container");
     tbl.innerHTML = "";
     values.forEach(function(item) {
@@ -39,6 +40,22 @@
     }
   }
 
+  function searchRegistro(table){
+    var searchvalue = document.getElementById("enterdata").value;
+    document.getElementById("enterdata").value = null;
+    var tbl = document.getElementById("container");
+    document.getElementById("container").innerHTML = "<p>Buscando...</p>"
+    google.script.run.withSuccessHandler(makeTable).queryData(searchvalue,table);
+  }
+
+  function makeTable(values){
+    var tbl = document.getElementById("container");
+    values.forEach(function(item){
+      tbl.innerHTML += item['Data da realização'];      
+    })
+    
+  }
+
   function descriptionInject(item){
     var tbl = document.getElementById("container");
     tbl.innerHTML = "<p>Buscando...</p>";
@@ -50,10 +67,13 @@
     tbl.hidden = !tbl.hidden
   }
 
+  function closeNav(){
+      document.getElementById("navbar").style.width = "0px";
+      document.getElementById("container").style.marginLeft = "0px";
+  }
+
   function homePage(){
       document.getElementById("container").innerHTML = homeHTML;
   }
-
-google.script.run.withSuccessHandler(makeCards).passTableItems();
 
 </script>

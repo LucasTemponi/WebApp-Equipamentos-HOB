@@ -1,0 +1,35 @@
+<script>
+  'use strict';
+  const e = React.createElement;
+
+  class EquipCard extends React.Component {
+    constructor(props) {
+     super(props);
+     this.state = { open: false };
+    }
+
+    render() {
+     if (this.state.open) {
+       return 'You liked this.';
+     }
+     return 'Teste';
+ 
+        /*<a href="+item['Manual']+" target=_blank id='"+index+"'>
+          <div class='card'style='width: 18rem;' >
+            <div class='img' style='height:70%'>
+              <img src="+item['link']+" alt='Avatar' style='max-width:100%;max-height:100%'>
+            </div>
+            <div class='container'>
+              <h4><b>"+item['Equipamento']+"</b></h4>
+              <p>"+item['Categoria']+"</p>
+              <p id='"+detailsID+"' hidden >"+item['Descritivo']+"</p>
+            </div>
+          </div>
+        </a>*/
+     )
+    }
+  }
+
+  ReactDOM.render(
+   e(EquipCard), document.getElementById('like_button_container'));
+</script>

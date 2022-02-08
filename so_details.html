@@ -9,19 +9,15 @@
   </head>
 
   <body>
-    <div class="sidebar" id='navbar'>
-      <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png'>
-      <a class="active" href="#home">Página principal</a>
-      <a href="#news">Preventivas e calibrações</a>
-      <a href="#contact">Manuais</a>
-      <a onClick="closeNav()">About</a>
-    </div>
     <div class = "header">
-      <div style='margin:auto'>
-        <h1>Manuais de equipamentos</h1>
-        <input style='margin:5px; size:500' id="enterdata" type="text"/><button class='button' onclick="searchEquip('equipTable')" >Pesquisar</button>    
-        <button class='button' onclick="homePage()">Página principal</button>  
+      <div class=image>
+        <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' style='width:60%'>
       </div>
+    <div style='margin:auto'>
+    <h1>Registros de preventivas</h1>
+    <input style='margin:5px; size:500' id="enterdata" type="text"/><button class='button' onclick="searchRegistro('registrosTable')" >Pesquisar</button>    
+    <button class='button' onclick="homePage()">Página principal</button>  
+    </div>
     </div>
     <div
       class="line";
@@ -36,8 +32,6 @@
     <script src="https://unpkg.com/react@17/umd/react.development.js" crossorigin></script>
     <script src="https://unpkg.com/react-dom@17/umd/react-dom.development.js" crossorigin></script>
     <?!= include('JavaScript');?>
-    <?!= include('react_components');?>
-    <script>google.script.run.withSuccessHandler(makeCards).passTableItems('equipTable');</script>
   </body>
 
 </html>

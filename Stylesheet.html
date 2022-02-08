@@ -21,6 +21,8 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
+    min-height: 100vh;
+    margin-left:200px;
   }
 
   .img{
@@ -63,5 +65,43 @@ footer {
   background-color: #f8962e;
   color: white;
   margin-top: 35px; 
+  position:relative;
+}
+
+.sidebar {
+  margin: 0;
+  padding: 0;
+  width: 200px;
+  background-color: #f1f1f1;
+  position: fixed;
+  height: 100%;
+  overflow: auto;
+}
+
+.sidebar a {
+  display: block;
+  color: black;
+  padding: 16px;
+  text-decoration: none;
+}
+
+.sidebar img{
+  display: block;
+  margin:0 auto;
+  padding: 16px 0px 14px;
+  width:85%;
+  object-fit:contain;
+}
+
+/* Active/current link */
+.sidebar a.active {
+  background-color: #555;
+  color: white;
+}
+
+/* Links on mouse-over */
+.sidebar a:hover:not(.active) {
+  background-color: #c7c7c7;
+  color: white;
 }
 </style>
