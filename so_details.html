@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <base target="_top">
+    <title>Equipamentos HOB</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">  
+
+    <?!= include('Stylesheet');?>
+  </head>
+
+  <body>
+    <div class = "header">
+      <div class=image>
+        <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' style='width:60%'>
+      </div>
+    <div style='margin:auto'>
+    <h1>Registros de preventivas</h1>
+    <input style='margin:5px; size:500' id="enterdata" type="text"/><button class='button' onclick="searchRegistro('registrosTable')" >Pesquisar</button>    
+    <button class='button' onclick="homePage()">Página principal</button>  
+    </div>
+    </div>
+    <div
+      class="line";
+      id="container"><br><br>
+    </div>
+    <footer>
+      <p><a href="mailto:lucas.temponi@pbh.gov.br" style='color:white'>Gerência de Engenharia Clínica/HOB</a></p>
+      <div id='like_button_container'></div>
+    </footer>
+    <script src="//cdn.jsdelivr.net/alasql/0.2/alasql.min.js"></script> 
+    <?!= include('JavaScript');?>
+  </body>
+
+</html>
