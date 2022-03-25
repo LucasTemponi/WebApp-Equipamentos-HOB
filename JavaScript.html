@@ -61,8 +61,9 @@ function makeCards(values) {
               <thead>\
                 <tr>\
                   <th scope='col'>Data</th>\
-                  <th scope='col'>Serviço</th>\
+                  <th scope='col'>Equipamento</th>\
                   <th scope='col'>Patrimônio</th>\
+                  <th scope='col'>Serviço</th>\
                   <th scope='col'>Arquivo</th>\
                 </tr>\
                 </thead>\
@@ -70,19 +71,21 @@ function makeCards(values) {
     values.forEach(function(item) {
       table +="<tr style='max-heigth:3rem'>\
                   <td>"+item['data']+"</td>\
-                  <td>"+item['tipo']+"</td>\
+                  <td>"+item['equipamento']+"</td>\
                   <td>"+item['patrimonio']+"</td>\
+                  <td>"+item['tipo']+"</td>\
                   <td><a href="+item['arquivo']+" target=_blank style='width:'>\
                     <img src='https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png' style='width:2rem'>\
                   </a></td>\
-                </tr>" 
+                </tr>"
     });
     table+="</tbody></table>"
     tbl.innerHTML = table
   }
 
   function homePage(){
-      document.getElementById("container").innerHTML = homeHTML;
+    document.getElementById("searchbutton").onclick = function(){searchRegistro('equipTable')}
+    document.getElementById("container").innerHTML = homeHTML;
   }
 
   function setRegistros(values){
