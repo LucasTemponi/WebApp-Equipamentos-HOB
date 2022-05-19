@@ -28,12 +28,16 @@ function passTableItems(table){
 
 function queryData(table,sendvalue='') {  
   var alasql = AlaSQLGS.load();
-  table = 'registrosTable'
-    
+  let resultado = []
+  console.log('queryData Chamada')
+
   if (table == 'equipTable'){
     if (equipamentos ==""){
       equipamentos = SpreadsheetApp.openById("1-Wy4CjSjyZb609koN8ayWnrLIYbmqjCVrUOdpOfSNvM").getSheetByName('Equipamentos').getDataRange().getValues();
     }
+    console.log('Fazendo a busca...')
+    resultado = alasql(AlaSQLGS.transformQueryColsNotation(`select * from ? where Col3 LIKE '%${sendvalue}%' OR Col4 LIKE '%${sendvalue}%'`),[equipamentos])
+    console.log(resultado)
     return alasql(AlaSQLGS.transformQueryColsNotation(`select * from ? where Col3 LIKE '%${sendvalue}%' OR Col4 LIKE '%${sendvalue}%'`),[equipamentos]);
   }
   else if (table == 'registrosTable'){
@@ -58,7 +62,14 @@ function queryData(table,sendvalue='') {
   }  
 }
 
+function getPaginatedRegisters(pageNumber,pageItems=15){
+  if (registros == ""){
+    registros = SpreadsheetApp.openById("1vtjst1jKqqR2IPj2rbeaicaQicPsR_EDk5tQ_PEbr3w").getSheetByName('Respostas ao formulário 2').getDataRange().getValues();
+  }
+  let firstItem = pageNumber === 1 ? 1 : (pageNumber - 1)*pageItems
+  return (registros.slice(firstItem,(pageNumber*pageItems)-1))
+}
+
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
-

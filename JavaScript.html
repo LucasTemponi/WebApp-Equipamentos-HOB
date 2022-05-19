@@ -2,21 +2,24 @@
   
   var flag = 0
   var homeHTML = ""
+  var equipamentos = []
   var registros = []
   var regPage = 1;
 
   function searchEquip(table) {
-    var searchvalue = document.getElementById("enterdata").value;
+    
+    var searchValue = document.getElementById("enterdata").value;
     document.getElementById("enterdata").value = null;
     document.getElementById("container").innerHTML = "<p>Buscando...</p>"
-    google.script.run.withSuccessHandler(makeCards).queryData(searchvalue,table);
-    //google.script.run.queryData(searchvalue).forEach(function(item{
+    console.log(table,searchValue)
+    google.script.run.withSuccessHandler(makeCards).queryData(table,searchValue);
+    //google.script.run.queryData(searchValue).forEach(function(item{
     //  tbl.innerHTML += 'teste';        
     //})) 
   }
 
 function makeCards(values) {
-    document.getElementById("searchbutton").onclick = function(){searchEquip('equipTable')}
+    document.getElementById("searchbutton").onclick = ()=>searchEquip('equipTable')
     var tbl = document.getElementById("container");
     tbl.innerHTML = "";
     values.forEach(function(item) {
@@ -44,16 +47,16 @@ function makeCards(values) {
   }
 
   function searchRegistro(table){
-    let searchvalue = document.getElementById("enterdata").value;
+    let searchValue = document.getElementById("enterdata").value;
     document.getElementById("enterdata").value = null;
     let tbl = document.getElementById("container");
     document.getElementById("container").innerHTML = "<p>Buscando...</p>"
-    console.log(searchvalue,table)
-    google.script.run.withSuccessHandler(makeTable).queryData(table,searchvalue)
+    console.log(searchValue,table)
+    google.script.run.withSuccessHandler(makeTable).queryData(table,searchValue)
   }
 
   function makeTable(values){
-    document.getElementById("searchbutton").onclick = function(){searchRegistro('registrosTable')}
+    document.getElementById("searchbutton").onclick = ()=>searchRegistro('registrosTable')
     var tbl = document.getElementById("container");
     tbl.innerHTML = ""
     table = []
@@ -79,12 +82,13 @@ function makeCards(values) {
                   </a></td>\
                 </tr>"
     });
-    table+="</tbody></table>"
+    table+=`</tbody>\
+      </table>`
     tbl.innerHTML = table
   }
 
   function homePage(){
-    document.getElementById("searchbutton").onclick = function(){searchRegistro('equipTable')}
+    document.getElementById("searchbutton").onclick = ()=>searchRegistro('equipTable')
     document.getElementById("container").innerHTML = homeHTML;
   }
 
