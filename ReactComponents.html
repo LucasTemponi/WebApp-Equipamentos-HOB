@@ -1,28 +1,53 @@
 <script type="text/babel">
 
-  const NavBar = () => {
-  return(
-    <div style={{margin:'0px 10px'}}>
-      <nav className="navbar" id='navbar'>
-        <a className='navbar-brand'>
-          <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' height='50' className="d-inline-block align-top" alt=""></img>
-        </a>
-        <a className="nav-item" href="javascript:void(0);"
-          onClick={google.script.run.withSuccessHandler(makeCards).passTableItems('equipTable')}>Manuais</a>
-        <a className="nav-item" href="javascript:void(0);" onClick={makeTable(registros.slice(0,10))}>Preventivas e
-          calibrações</a>
-        <div className='nav-input'>
-          <input className="searchBar" style={{margin:'5px', size:'500'}} id="enterdata" type="text"/>
-          
-          <button className='button' id='searchbutton' onClick={searchEquip('equipTable')}>Pesquisar</button>
+  const EquipCard = ({equipamento}) =>{
+    return(
+      <a href={equipamento[7]}>
+        <div className='card' >
+          <div className='card-img-top' style={{height:'70%'}}>
+            <img src={equipamento[0]} alt='Avatar' className='img'></img>
+          </div>
+          <div className='card-body'>
+            <h4><b>{equipamento[2]}</b></h4>
+            <p>{equipamento[3]}</p>
+            <p hidden >{equipamento[6]}</p>
+          </div>
         </div>
-      </nav>
-    </div>
-  )
-}
+      </a>
+    )
+
+  }
+
+  const EquipPage = () => {
+
+    const [equipamentos,setEquipamentos] = React.useState()
+
+    const getEquipsFromBack = async ()=>{
+
+      google.script.run.withSuccessHandler(setEquipamentos).passTableItems('equipTable');
+
+    }
+
+    React.useEffect(()=>{
+
+      console.log('olá')
+      getEquipsFromBack();
+      
+    },[])
+
+    console.log(equipamentos)
+    return( 
+      <div className="line" id="container">
+        {
+          equipamentos?.map(equip=><EquipCard equipamento={equip}/>)
+        }
+      </div>
+    )
+  }
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-  <NavBar/>
+  <EquipPage/>
 )
 </script>

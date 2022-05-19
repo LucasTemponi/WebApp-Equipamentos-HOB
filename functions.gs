@@ -70,6 +70,10 @@ function getPaginatedRegisters(pageNumber,pageItems=15){
   return (registros.slice(firstItem,(pageNumber*pageItems)-1))
 }
 
+function getAllEquipments(){
+  
+}
+
 function include(filename) {
   return HtmlService.createHtmlOutputFromFile(filename).getContent();
 }
