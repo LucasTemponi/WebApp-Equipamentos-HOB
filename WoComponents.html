@@ -1,0 +1,68 @@
+<script type="text/babel">
+
+  const WoTable = () => {
+
+    const [WOs,setWOs] = React.useState();
+    const [pageNumber,setPageNumber] = React.useState(1);
+    const [loading,setLoading] = React.useState(true);
+    const [firstPageItem,setFirstPageItem] = React.useState(0)
+    const pageItems = 15;
+
+    const getRegistersFromBack = async ()=>{
+      await google.script.run.withSuccessHandler((results)=>{
+        setWOs(results)
+        setLoading(false)
+        }
+      ).getPaginatedRegisters(pageNumber,pageItems)
+    }
+
+    React.useEffect(()=>{
+      setLoading(true)
+      console.log('olá')
+      getRegistersFromBack();
+    },[])
+
+    return( 
+      loading ? 
+      <Loading/>
+      :
+      <div className='teste'>
+        <table className='table'>
+          <thead>
+            <tr>
+              <th scope='col'>Data</th>
+              <th scope='col'>Equipamento</th>
+              <th scope='col'>Patrimônio</th>
+              <th scope='col'>Serviço</th>
+              <th scope='col'>Arquivo</th>
+            </tr>
+          </thead>
+          <tbody>
+          {
+            WOs
+            .slice((pageNumber-1)*pageItems,pageItems*pageNumber)
+            .map((item) => {
+              return(
+                <tr style={{maxHeigth:'3rem'}}>
+                  <td>{item['data']}</td>
+                  <td>{item['equipamento']}</td>
+                  <td>{item['patrimonio']}</td>
+                  <td>{item['tipo']}</td>
+                  <td><a href={item['arquivo']}>
+                    <img src='https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png' style={{width:'2rem'}}></img>
+                  </a></td>
+                </tr>
+              )
+            })
+          }
+          </tbody>
+        </table>
+        {
+          pageNumber>1 && <button onClick={()=>setPageNumber(pageNumber-1)} >Página anterior</button>
+        }
+        <button onClick={()=>setPageNumber(pageNumber+1)} >Próxima página</button>
+      </div>
+    )
+  }
+
+</script>

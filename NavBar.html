@@ -1,0 +1,27 @@
+<script type="text/babel">
+
+  const NavBar = ({children,setPage}) => {
+
+    console.log(equipamentos)
+    return(
+      <>
+        <div style={{margin:'0px 10px'}}>
+          <nav className="navbar" id='navbar'>
+            <a className='navbar-brand'>
+              <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' height='50' className="d-inline-block align-top" alt=""></img>
+            </a>
+            <a className="nav-item" href="javascript:void(0);" onClick={()=>setPage('equipamentos')}>Manuais</a>
+            <a className="nav-item" href="javascript:void(0);" onClick={()=>setPage('registros')}>Preventivas e
+              calibrações</a>
+            <div className='nav-input'>
+              <input className="searchBar" style={{margin:'5px, size:500'}} id="enterdata" type="text"/>
+              <button className='button' id='searchbutton'>Pesquisar</button>
+            </div>
+          </nav>
+        </div>
+        {children}
+      </>
+    )
+  }
+
+</script>

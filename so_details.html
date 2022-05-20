@@ -6,7 +6,7 @@
   <title>Equipamentos HOB</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?!= include('Stylesheet');?>
-  
+
 </head>
 
 <body>
@@ -16,8 +16,36 @@
   <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
   <script src="https://unpkg.com/@babel/standalone@7.18.0/babel.js"></script>
-  <?!= include('ReactComponents');?>
 
+  <?!= include('EquipComponents');?>
+  <?!= include('WoComponents');?>
+  <?!= include('NavBar');?>
+  <?!= include('Loading');?>
+
+  <script type='text/babel' >
+    const MainPage = () =>{
+      const [page,setPage] = React.useState('equipamentos')
+
+      return(
+        <>
+          <NavBar setPage={setPage} >
+            <div className='line'>
+            {
+              (page === 'registros') && <WoTable/>
+            }
+            {
+              (page === 'equipamentos') && <EquipPage/>
+            }
+            </div>
+          </NavBar>
+        </>
+      )
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(
+      <MainPage/>            
+    )
+  </script>
 </body>
-
 </html>

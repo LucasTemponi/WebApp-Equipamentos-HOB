@@ -1,0 +1,47 @@
+<script type="text/babel">
+
+  const EquipCard = ({equipamento}) =>(
+    <a href={equipamento[7]}>
+      <div className='card' >
+        <div className='card-img-top' style={{height:'70%'}}>
+          <img src={equipamento[0]} alt={equipamento[3]} className='img'></img>
+        </div>
+        <div className='card-body'>
+          <h4><b>{equipamento[2]}</b></h4>
+          <p>{equipamento[3]}</p>
+          <p hidden >{equipamento[6]}</p>
+        </div>
+      </div>
+    </a>
+  )
+  
+
+  const EquipPage = () => {
+
+    const [equipamentos,setEquipamentos] = React.useState()
+    const [loading,setLoading] = React.useState(true)
+
+    const getEquipsFromBack = async ()=>{
+      google.script.run.withSuccessHandler((results)=>{
+        setEquipamentos(results);
+        setLoading(false)
+        }
+      ).passTableItems('equipTable');
+    }
+
+    React.useEffect(()=>{
+
+      console.log('olá')
+      getEquipsFromBack();
+      
+    },[])
+
+    console.log(equipamentos)
+    return(
+      loading ? <Loading/> 
+        :
+        equipamentos?.map(equip=><EquipCard equipamento={equip}/>)
+    )
+  }
+
+</script>
