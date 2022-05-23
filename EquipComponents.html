@@ -1,6 +1,6 @@
 <script type="text/babel">
 
-  const EquipCard = ({equipamento}) =>{
+  const EquipCard = ({ equipamento }) => {
     return (
       <a href={equipamento[7]} target='_blank' >
         <div className='card' >
@@ -16,34 +16,34 @@
       </a>
     )
   }
-  
-  const EquipPage = ({searchQuery}) => {
 
-    const [equipamentos,setEquipamentos] = React.useState([])
-    const [loading,setLoading] = React.useState(true)
+  const EquipPage = ({ searchQuery }) => {
 
-    const getEquipsFromBack = async ()=>{
-      google.script.run.withSuccessHandler((results)=>{
+    const [equipamentos, setEquipamentos] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
+
+    const getEquipsFromBack = async () => {
+      google.script.run.withSuccessHandler((results) => {
         setEquipamentos(results);
         setLoading(false)
-        }
+      }
       ).passTableItems('equipTable');
     }
 
-    React.useEffect(()=>{
+    React.useEffect(() => {
       getEquipsFromBack();
-    },[])
+    }, [])
 
-    return(
-      loading ? <Loading/> 
+    return (
+      loading ? <Loading />
         :
         equipamentos
-          .filter(item=>
-            item[3].toLowerCase().includes(searchQuery.toLowerCase()) 
-            || 
+          .filter(item =>
+            item[3].toLowerCase().includes(searchQuery.toLowerCase())
+            ||
             item[2].toLowerCase().includes(searchQuery.toLowerCase())
           )
-          .map(equip=><EquipCard equipamento={equip}/>)
+          .map(equip => <EquipCard equipamento={equip} />)
     )
   }
 </script>

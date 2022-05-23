@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang='pt-br' >
+<html lang='pt-br'>
 
 <head>
   <base target="_top">
@@ -22,20 +22,20 @@
   <?!= include('Loading');?>
 
   <script type='text/babel'>
-    const MainPage = () =>{
-      const [page,setPage] = React.useState('equipamentos')
-      const [searchQuery,setSearchQuery] = React.useState('')
+    const MainPage = () => {
+      const [page, setPage] = React.useState('equipamentos')
+      const [searchQuery, setSearchQuery] = React.useState('')
 
-      return(
+      return (
         <>
           <NavBar page={page} setPage={setPage} setQuery={setSearchQuery} >
             <div className='line'>
-            {
-              (page === 'registros') && <WoTable searchQuery={searchQuery}/>
-            }
-            {
-              (page === 'equipamentos') && <EquipPage searchQuery={searchQuery} />
-            }
+              {
+                (page === 'registros') && <WoTable searchQuery={searchQuery} />
+              }
+              {
+                (page === 'equipamentos') && <EquipPage searchQuery={searchQuery} />
+              }
             </div>
           </NavBar>
         </>
@@ -44,7 +44,7 @@
 
     const root = ReactDOM.createRoot(document.getElementById('root'))
     root.render(
-      <MainPage/>            
+      <MainPage />
     )
   </script>
 </body>
