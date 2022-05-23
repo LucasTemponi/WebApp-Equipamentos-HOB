@@ -1,8 +1,14 @@
 <script type="text/babel">
 
-  const NavBar = ({children,setPage}) => {
+  const NavBar = ({children,page,setPage,setQuery}) => {
 
-    console.log(equipamentos)
+    const debouncer = React.useRef(null);
+
+    const handleSearch = (event) =>{
+      clearTimeout(debouncer.current)
+      debouncer.current = setTimeout(()=>setQuery(event.target.value),250)     
+    }
+
     return(
       <>
         <div style={{margin:'0px 10px'}}>
@@ -10,12 +16,12 @@
             <a className='navbar-brand'>
               <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' height='50' className="d-inline-block align-top" alt=""></img>
             </a>
-            <a className="nav-item" href="javascript:void(0);" onClick={()=>setPage('equipamentos')}>Manuais</a>
-            <a className="nav-item" href="javascript:void(0);" onClick={()=>setPage('registros')}>Preventivas e
-              calibrações</a>
+            <span className={`nav-item ${page==='equipamentos' ? 'selected' : ''}`}  onClick={()=>setPage('equipamentos')}>Manuais</span>
+            <span className={`nav-item ${page==='registros' ? 'selected' : ''}`} onClick={()=>setPage('registros')}>Preventivas e
+              calibrações</span>
             <div className='nav-input'>
-              <input className="searchBar" style={{margin:'5px, size:500'}} id="enterdata" type="text"/>
-              <button className='button' id='searchbutton'>Pesquisar</button>
+              <input className="searchBar" onChange={event=>handleSearch(event)} style={{margin:'5px, size:500'}} id="enterdata" type="text"/>
+              <img src='https://cdn-icons-png.flaticon.com/512/61/61088.png' alt='search'></img>
             </div>
           </nav>
         </div>

@@ -1,24 +1,89 @@
 <script type="text/babel">
 
-  const WoTable = () => {
+  const PaginationComponent = ({page,setPage,totalItems}) => {
 
-    const [WOs,setWOs] = React.useState();
+    const [lastPage,setLastPage] = React.useState()
+
+    React.useEffect(()=>{
+      setLastPage(Math.ceil(totalItems/15))
+    },[totalItems])
+  
+    return (
+      <div className='button-container' >
+        <button disabled={page === 1} onClick={()=>setPage(1)} >
+        <svg xmlns="http://www.w3.org/2000/svg" style={{height:'0.7em'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
+        </svg>
+        </button>
+          <button disabled={page === 1} onClick={()=>setPage(page-1)} >
+            <svg xmlns="http://www.w3.org/2000/svg" style={{height:'0.7em'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+          
+          <button className={`${page===1 ? 'selected-page' : ''}`}onClick={()=>page>4 ? setPage(page-2) : setPage(1)}>
+            {page>4 ? page-2 : 1 }
+          </button>
+
+          <button className={`${page===2 ? 'selected-page' : ''}`} onClick={()=>page>4 ? setPage(page-1) : setPage(2)}>
+            {page>4 ? page-1 : 2 }
+          </button>
+
+          <button className={`${page===3 ||page>=5 && page<=lastPage-2 ? 'selected-page' : ''}`} onClick={()=> page>4 ? '' : setPage(3)}>
+            {page>4 ? page : 3 }
+          </button>
+
+          <button className={`${page===4 || page===lastPage-1 ? 'selected-page' : ''}`} onClick={()=>page>4 ? setPage(page+1) : setPage(4)}>
+            {page>4 ? page+1 : 4 }
+          </button>
+
+          <button className={`${page===lastPage ? 'selected-page' : ''}`} onClick={()=>page>4 ? setPage(page+2) : setPage(5)}>
+            {page>4 ? page+2 : 5 }
+          </button>
+
+          <button disabled={page===lastPage} onClick={()=>setPage(page+1)}>
+            <svg xmlns="http://www.w3.org/2000/svg" style={{height:'0.7em'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+          <button disabled={page===lastPage} onClick={()=>setPage(lastPage)} >
+            <svg xmlns="http://www.w3.org/2000/svg" style={{height:'0.7em'}} fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 5l7 7-7 7M5 5l7 7-7 7" />
+            </svg>
+          </button>
+      </div>
+    )
+  }
+
+  const WoTable = ({searchQuery}) => {
+
+    const [allWos,setAllWos] = React.useState([])
+    const [WOs,setWOs] = React.useState([]);
     const [pageNumber,setPageNumber] = React.useState(1);
     const [loading,setLoading] = React.useState(true);
     const [firstPageItem,setFirstPageItem] = React.useState(0)
     const pageItems = 15;
 
-    const getRegistersFromBack = async ()=>{
-      await google.script.run.withSuccessHandler((results)=>{
-        setWOs(results)
+    const getRegistersFromBack = ()=>{
+      google.script.run.withSuccessHandler((results)=>{
+        setAllWos(results.slice(1).reverse())
+        setWOs(results.slice(1).reverse())
         setLoading(false)
         }
-      ).getPaginatedRegisters(pageNumber,pageItems)
+      ).getAllRegisters(pageNumber,pageItems)
     }
 
     React.useEffect(()=>{
+      console.log('Effect chamado')
+      setPageNumber(1)
+      if (allWos){
+        console.log('WOs setadas',searchQuery)
+        setWOs(allWos.filter(item=> `${item[8]} ${item[1]}`.toLowerCase().includes(searchQuery.toLowerCase())))
+      }
+    },[searchQuery])
+
+    React.useEffect(()=>{
       setLoading(true)
-      console.log('olá')
       getRegistersFromBack();
     },[])
 
@@ -26,7 +91,7 @@
       loading ? 
       <Loading/>
       :
-      <div className='teste'>
+      <div className='table-container'>
         <table className='table'>
           <thead>
             <tr>
@@ -44,11 +109,11 @@
             .map((item) => {
               return(
                 <tr style={{maxHeigth:'3rem'}}>
-                  <td>{item['data']}</td>
-                  <td>{item['equipamento']}</td>
-                  <td>{item['patrimonio']}</td>
-                  <td>{item['tipo']}</td>
-                  <td><a href={item['arquivo']}>
+                  <td>{item[3]}</td>
+                  <td>{item[7]}</td>
+                  <td style={{textAlign:'center'}} >{item[2]}</td>
+                  <td>{item[5]}</td>
+                  <td style={{textAlign:'center'}} ><a href={item[4]} target='_blank' >
                     <img src='https://www.iconpacks.net/icons/2/free-file-icon-1453-thumb.png' style={{width:'2rem'}}></img>
                   </a></td>
                 </tr>
@@ -57,10 +122,7 @@
           }
           </tbody>
         </table>
-        {
-          pageNumber>1 && <button onClick={()=>setPageNumber(pageNumber-1)} >Página anterior</button>
-        }
-        <button onClick={()=>setPageNumber(pageNumber+1)} >Próxima página</button>
+        <PaginationComponent page={pageNumber} setPage={setPageNumber} totalItems={WOs.length} />
       </div>
     )
   }

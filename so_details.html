@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang='pt-br' >
 
 <head>
   <base target="_top">
@@ -10,31 +10,31 @@
 </head>
 
 <body>
-  <?!= include('JavaScript');?>
 
   <div id="root"></div>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.18.0/babel.js"></script>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.18.0/babel.min.js"></script>
 
   <?!= include('EquipComponents');?>
   <?!= include('WoComponents');?>
   <?!= include('NavBar');?>
   <?!= include('Loading');?>
 
-  <script type='text/babel' >
+  <script type='text/babel'>
     const MainPage = () =>{
       const [page,setPage] = React.useState('equipamentos')
+      const [searchQuery,setSearchQuery] = React.useState('')
 
       return(
         <>
-          <NavBar setPage={setPage} >
+          <NavBar page={page} setPage={setPage} setQuery={setSearchQuery} >
             <div className='line'>
             {
-              (page === 'registros') && <WoTable/>
+              (page === 'registros') && <WoTable searchQuery={searchQuery}/>
             }
             {
-              (page === 'equipamentos') && <EquipPage/>
+              (page === 'equipamentos') && <EquipPage searchQuery={searchQuery} />
             }
             </div>
           </NavBar>
@@ -48,4 +48,5 @@
     )
   </script>
 </body>
+
 </html>

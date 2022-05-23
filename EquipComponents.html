@@ -1,24 +1,25 @@
 <script type="text/babel">
 
-  const EquipCard = ({equipamento}) =>(
-    <a href={equipamento[7]}>
-      <div className='card' >
-        <div className='card-img-top' style={{height:'70%'}}>
-          <img src={equipamento[0]} alt={equipamento[3]} className='img'></img>
+  const EquipCard = ({equipamento}) =>{
+    return (
+      <a href={equipamento[7]} target='_blank' >
+        <div className='card' >
+          <div className='card-img-top'>
+            <img src={equipamento[0]} alt={equipamento[3]} className='img'></img>
+          </div>
+          <div className='card-body'>
+            <h4><b>{equipamento[2]}</b></h4>
+            <p>{equipamento[3]}</p>
+            <p hidden >{equipamento[6]}</p>
+          </div>
         </div>
-        <div className='card-body'>
-          <h4><b>{equipamento[2]}</b></h4>
-          <p>{equipamento[3]}</p>
-          <p hidden >{equipamento[6]}</p>
-        </div>
-      </div>
-    </a>
-  )
+      </a>
+    )
+  }
   
+  const EquipPage = ({searchQuery}) => {
 
-  const EquipPage = () => {
-
-    const [equipamentos,setEquipamentos] = React.useState()
+    const [equipamentos,setEquipamentos] = React.useState([])
     const [loading,setLoading] = React.useState(true)
 
     const getEquipsFromBack = async ()=>{
@@ -30,18 +31,19 @@
     }
 
     React.useEffect(()=>{
-
-      console.log('olá')
       getEquipsFromBack();
-      
     },[])
 
-    console.log(equipamentos)
     return(
       loading ? <Loading/> 
         :
-        equipamentos?.map(equip=><EquipCard equipamento={equip}/>)
+        equipamentos
+          .filter(item=>
+            item[3].toLowerCase().includes(searchQuery.toLowerCase()) 
+            || 
+            item[2].toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .map(equip=><EquipCard equipamento={equip}/>)
     )
   }
-
 </script>

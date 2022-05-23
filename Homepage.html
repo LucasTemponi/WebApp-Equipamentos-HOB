@@ -1,56 +1,51 @@
 <!DOCTYPE html>
-<html>
+<html lang='pt-br' >
 
 <head>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
   <base target="_top">
   <title>Equipamentos HOB</title>
-
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <?!= include('Stylesheet');?>
+
 </head>
 
 <body>
+
   <div id="root"></div>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7.18.0/babel.js"></script>
-  <?!= include('ReactComponents');?>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.18.0/babel.min.js"></script>
 
+  <?!= include('EquipComponents');?>
+  <?!= include('WoComponents');?>
+  <?!= include('NavBar');?>
+  <?!= include('Loading');?>
 
-  <div style='margin:0px 10px'>
-    <nav class="navbar" id='navbar'>
-      <a class='navbar-brand'>
-        <img src = 'https://approbare.com.br/wp-content/uploads/2019/11/Logo-HOB-Novo-300x157.png' height='50' class="d-inline-block align-top" alt=""></img>
-      </a>
-      <a class="nav-item" href="javascript:void(0);"
-        onclick="google.script.run.withSuccessHandler(makeCards).passTableItems('equipTable')">Manuais</a>
-      <a class="nav-item" href="javascript:void(0);" onClick='makeTable(registros.slice(0,10))'>Preventivas e
-        calibrações</a>
-      <div class='nav-input'>
-        <input class="searchBar" style='margin:5px; size:500' id="enterdata" type="text"/>
-        <!-- <img src="https://cdn-icons-png.flaticon.com/512/149/149852.png" alt="search Icon"/> -->
-        <button class='button' id='searchbutton' onclick="searchEquip('equipTable')">Pesquisar</button>
-      </div>
-    </nav>
-  </div>
+  <script type='text/babel'>
+    const MainPage = () =>{
+      const [page,setPage] = React.useState('equipamentos')
+      const [searchQuery,setSearchQuery] = React.useState('')
 
-  <div class="line" ; id="container"><br><br>
-  </div>
+      return(
+        <>
+          <NavBar page={page} setPage={setPage} setQuery={setSearchQuery} >
+            <div className='line'>
+            {
+              (page === 'registros') && <WoTable searchQuery={searchQuery}/>
+            }
+            {
+              (page === 'equipamentos') && <EquipPage searchQuery={searchQuery} />
+            }
+            </div>
+          </NavBar>
+        </>
+      )
+    }
 
-  <footer>
-    <p><a href="mailto:lucas.temponi@pbh.gov.br" style='color:white'>Gerência de Engenharia Clínica/HOB</a></p>
-    <div id='like_button_container'></div>
-  </footer>
-
-  <?!= include('JavaScript');?>
-  <script>
-    google.script.run.withSuccessHandler(makeCards).passTableItems('equipTable');
-  </script>
-  <script>
-    google.script.run.loadTables()
-  </script>
-  <script>
-    google.script.run.withSuccessHandler(setRegistros).queryData('registrosTable')
+    const root = ReactDOM.createRoot(document.getElementById('root'))
+    root.render(
+      <MainPage/>            
+    )
   </script>
 </body>
 
