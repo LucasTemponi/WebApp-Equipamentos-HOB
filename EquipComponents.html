@@ -1,0 +1,49 @@
+<script type="text/babel">
+
+  const EquipCard = ({ equipamento }) => {
+    return (
+      <a href={equipamento[7]} target='_blank' >
+        <div className='card' >
+          <div className='card-img-top'>
+            <img src={equipamento[0]} alt={equipamento[3]} className='img'></img>
+          </div>
+          <div className='card-body'>
+            <h4><b>{equipamento[2]}</b></h4>
+            <p>{equipamento[3]}</p>
+            <p hidden >{equipamento[6]}</p>
+          </div>
+        </div>
+      </a>
+    )
+  }
+
+  const EquipPage = ({ searchQuery }) => {
+
+    const [equipamentos, setEquipamentos] = React.useState([])
+    const [loading, setLoading] = React.useState(true)
+
+    const getEquipsFromBack = async () => {
+      google.script.run.withSuccessHandler((results) => {
+        setEquipamentos(results);
+        setLoading(false)
+      }
+      ).passTableItems('equipTable');
+    }
+
+    React.useEffect(() => {
+      getEquipsFromBack();
+    }, [])
+
+    return (
+      loading ? <Loading />
+        :
+        equipamentos
+          .filter(item =>
+            item[3].toLowerCase().includes(searchQuery.toLowerCase())
+            ||
+            item[2].toLowerCase().includes(searchQuery.toLowerCase())
+          )
+          .map(equip => <EquipCard equipamento={equip} />)
+    )
+  }
+</script>
