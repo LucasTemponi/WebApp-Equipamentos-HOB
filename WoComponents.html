@@ -66,6 +66,7 @@
 
     const getRegistersFromBack = ()=>{
       google.script.run.withSuccessHandler((results)=>{
+        console.log(results)
         setAllWos(results.slice(1).reverse())
         setWOs(results.slice(1).reverse())
         setLoading(false)
@@ -77,7 +78,6 @@
       console.log('Effect chamado')
       setPageNumber(1)
       if (allWos){
-        console.log('WOs setadas',searchQuery)
         setWOs(allWos.filter(item=> `${item[8]} ${item[1]}`.toLowerCase().includes(searchQuery.toLowerCase())))
       }
     },[searchQuery])
